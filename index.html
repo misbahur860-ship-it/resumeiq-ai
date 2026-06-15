@@ -67,6 +67,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
         .nav-inner {
@@ -76,8 +77,8 @@
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 1.25rem;
+            font-weight: 800;
+            font-size: 1.35rem;
             letter-spacing: -0.02em;
             color: var(--text-primary);
             text-decoration: none;
@@ -88,7 +89,7 @@
 
         /* Hero */
         .hero {
-            padding: 64px 0 40px;
+            padding: 64px 0 32px;
             text-align: center;
         }
 
@@ -518,12 +519,13 @@
         }
 
         .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    padding-top: 8px;
+}
 
         .footer-links {
             display: flex;
@@ -564,6 +566,9 @@
                 </svg>
                 ResumeIQ
             </a>
+           <a href="#analyzer-container" class="nav-cta">
+    Analyze Resume
+</a>
         </div>
     </nav>
 
