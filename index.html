@@ -341,25 +341,26 @@
         /* Button */
         .btn-primary {
             width: 100%;
-            padding: 14px 24px;
+            padding: 16px 24px;
             background: var(--accent-black);
             color: #ffffff;
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: 10px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             font-family: inherit;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: all 0.2s ease;
         }
 
         .btn-primary:hover {
-            opacity: 0.9;
-        }
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
 
         .btn-primary:active {
             transform: scale(0.98);
