@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,9 @@
             --transition-fast: 0.15s ease;
         }
 
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -71,11 +74,11 @@
         }
 
         .nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
 
         .logo {
             font-weight: 800;
@@ -87,21 +90,22 @@
             align-items: center;
             gap: 8px;
         }
-        .nav-cta {
-    text-decoration: none;
-    color: #111111;
-    font-size: 0.9rem;
-    font-weight: 600;
-    padding: 10px 16px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    transition: all 0.15s ease;
-}
 
-.nav-cta:hover {
-    border-color: #cccccc;
-    background: #fafafa;
-}
+        .nav-cta {
+            text-decoration: none;
+            color: #111111;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .nav-cta:hover {
+            border-color: #cccccc;
+            background: #fafafa;
+        }
 
         /* Hero */
         .hero {
@@ -142,15 +146,16 @@
             border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
             background: var(--bg-color);
-            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
             transition: border-color var(--transition-fast),
-            transform var(--transition-fast);
+                transform var(--transition-fast);
         }
 
         .feature-card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-2px);
-}
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
         .feature-icon {
             width: 32px;
             height: 32px;
@@ -234,8 +239,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Form Elements */
@@ -263,7 +275,8 @@
             position: relative;
         }
 
-        .upload-zone:hover, .upload-zone.dragover {
+        .upload-zone:hover,
+        .upload-zone.dragover {
             border-color: var(--accent-black);
             background: var(--bg-color);
         }
@@ -312,7 +325,8 @@
         }
 
         /* Inputs */
-        textarea, select {
+        textarea,
+        select {
             width: 100%;
             padding: 12px 16px;
             font-family: inherit;
@@ -331,7 +345,8 @@
             line-height: 1.5;
         }
 
-        textarea:focus, select:focus {
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: var(--accent-black);
             box-shadow: 0 0 0 1px var(--accent-black);
@@ -375,9 +390,9 @@
         }
 
         .btn-primary:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-}
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
 
         .btn-primary:active {
             transform: scale(0.98);
@@ -405,7 +420,9 @@
         }
 
         @keyframes spin {
-            100% { transform: rotate(360deg); }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Trust Badge */
@@ -535,13 +552,13 @@
         }
 
         .footer-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    padding-top: 8px;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            padding-top: 8px;
+        }
 
         .footer-links {
             display: flex;
@@ -560,20 +577,39 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .score-card { flex-direction: column; text-align: center; gap: 16px; }
-            .feedback-grid { grid-template-columns: 1fr; }
-            .footer-inner { flex-direction: column; gap: 16px; }
-            .form-area { padding: 24px 16px; }
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .score-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 16px;
+            }
+
+            .feedback-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .form-area {
+                padding: 24px 16px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav aria-label="Main Navigation">
         <div class="container nav-inner">
             <a href="/" class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                     <polyline points="14 2 14 8 20 8"></polyline>
                     <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -582,40 +618,57 @@
                 </svg>
                 ResumeIQ
             </a>
-           <a href="#analyzer-container" class="nav-cta">
-    Analyze Resume
-</a>
+            <a href="#analyzer-container" class="nav-cta">
+                Analyze Resume
+            </a>
         </div>
     </nav>
 
     <main>
         <section class="hero container">
             <h1>Get More Interviews
-With an ATS-Optimized Resume</h1>
-            <p>Upload your resume and receive an ATS score, keyword analysis, and actionable suggestions to improve your chances of landing interviews.</p>
+                With an ATS-Optimized Resume</h1>
+            <p>Upload your resume and receive an ATS score, keyword analysis, and actionable suggestions to improve your
+                chances of landing interviews.</p>
         </section>
 
         <section class="features container" aria-label="Features">
             <div class="features-grid">
                 <div class="feature-card">
-                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
                     <h3 class="feature-title">ATS Score</h3>
-                    <p class="feature-desc">See how well your resume parses through modern Applicant Tracking Systems.</p>
+                    <p class="feature-desc">See how well your resume parses through modern Applicant Tracking Systems.
+                    </p>
                 </div>
                 <div class="feature-card">
-                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
                     <h3 class="feature-title">Missing Skills</h3>
-                    <p class="feature-desc">Identify crucial keywords and technical skills missing from your experience.</p>
+                    <p class="feature-desc">Identify crucial keywords and technical skills missing from your experience.
+                    </p>
                 </div>
                 <div class="feature-card">
-                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                     <h3 class="feature-title">AI Feedback</h3>
-                    <p class="feature-desc">Get line-by-line recommendations to make your bullet points more impactful.</p>
+                    <p class="feature-desc">Get line-by-line recommendations to make your bullet points more impactful.
+                    </p>
                 </div>
                 <div class="feature-card">
-                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
                     <h3 class="feature-title">Role Match Analysis</h3>
-                    <p class="feature-desc">Tailor your resume directly to frontend, backend, or specific tech stacks.</p>
+                    <p class="feature-desc">Tailor your resume directly to frontend, backend, or specific tech stacks.
+                    </p>
                 </div>
             </div>
         </section>
@@ -623,26 +676,39 @@ With an ATS-Optimized Resume</h1>
         <section class="workspace container" id="analyzer-container">
             <div class="analyzer-card">
                 <div class="tabs" role="tablist" aria-label="Input Method">
-                    <button type="button" class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-upload" id="tab-upload">Upload PDF</button>
-                    <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-paste" id="tab-paste">Paste Text</button>
+                    <button type="button" class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-upload"
+                        id="tab-upload">Upload PDF</button>
+                    <button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-paste"
+                        id="tab-paste">Paste Text</button>
                 </div>
 
                 <form id="analyze-form" class="form-area" novalidate>
-                    
-                    <div id="panel-upload" class="tab-panel active" role="tabpanel" aria-labelledby="tab-upload" tabindex="0">
+
+                    <div id="panel-upload" class="tab-panel active" role="tabpanel" aria-labelledby="tab-upload"
+                        tabindex="0">
                         <div class="form-group">
                             <label class="visually-hidden" for="file-upload">Upload PDF Document</label>
                             <div class="upload-zone" id="drop-zone">
                                 <div id="upload-content">
-                                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"></path></svg>
+                                    <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5">
+                                        </path>
+                                    </svg>
                                     <p class="upload-text">Click to upload or drag and drop</p>
                                     <p class="upload-hint">PDF up to 5MB</p>
                                 </div>
                                 <div id="file-display" class="file-display">
-                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                        stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
                                     <span id="file-name">document.pdf</span>
                                 </div>
-                                <input type="file" id="file-upload" class="file-input" accept="application/pdf" aria-label="Upload PDF">
+                                <input type="file" id="file-upload" class="file-input" accept="application/pdf"
+                                    aria-label="Upload PDF">
                             </div>
                         </div>
                     </div>
@@ -662,20 +728,25 @@ With an ATS-Optimized Resume</h1>
                                 <option value="frontend">Frontend Developer</option>
                                 <option value="backend">Backend Developer</option>
                                 <option value="fullstack">Full Stack Developer</option>
-                                <option value="data">Data Scientist</option>
-                                <option value="pm">Product Manager</option>
-                                <option value="design">UI/UX Designer</option>
+
                             </select>
                         </div>
                     </div>
 
                     <button type="submit" class="btn-primary" id="submit-btn">
-                        <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="31.4 31.4"><circle cx="12" cy="12" r="10"></circle></svg>
+                        <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-dasharray="31.4 31.4">
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
                         <span class="btn-text">Analyze Resume</span>
                     </button>
 
                     <div class="trust-badge">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                            </path>
+                        </svg>
                         <span>Securely processed. We do not store your data.</span>
                     </div>
                 </form>
@@ -685,45 +756,41 @@ With an ATS-Optimized Resume</h1>
         <section class="results-section container" id="results-section" aria-live="polite">
             <div class="results-header">
                 <h2>Analysis Complete</h2>
+                <p id="role-result"></p>
+                <p id="dynamic-summary" style="margin-top: 8px; font-weight: 500; color: var(--text-primary);"></p>
             </div>
-            
+
             <div class="score-card">
-                <div class="score-circle">78</div>
+                <div class="score-circle" id="score-circle">0</div>
                 <div class="score-details">
-                    <h3>Good, but room for improvement</h3>
-                    <p>Your resume passes standard ATS filters, but lacks quantifiable metrics and a few key technical keywords required for a competitive edge.</p>
+                    <h3 id="score-title">Analyzing...</h3>
+                    <p id="score-message">Please wait while we review your resume...</p>
                 </div>
             </div>
 
             <div class="feedback-grid">
                 <div class="feedback-card">
                     <h4>Strengths</h4>
-                    <ul class="list-items positive">
-                        <li>Clear chronological structure.</li>
-                        <li>Good use of action verbs in recent roles.</li>
-                        <li>Education section is well-formatted.</li>
+                    <ul class="list-items positive" id="strengths-list">
                     </ul>
                 </div>
                 <div class="feedback-card">
                     <h4>Missing Skills</h4>
-                    <ul class="list-items negative">
-                        <li>System Design / Architecture</li>
-                        <li>CI/CD Pipelines (e.g., GitHub Actions)</li>
-                        <li>Cloud Platforms (AWS/GCP)</li>
+                    <ul class="list-items negative" id="missing-skills-list">
                     </ul>
                 </div>
                 <div class="feedback-card" style="grid-column: 1 / -1;">
                     <h4>Recommendations</h4>
-                    <ul class="list-items" style="color: var(--text-primary); margin-top: 8px;">
-                        <li style="margin-bottom: 16px;"><strong>Quantify your impact:</strong> Instead of "Improved website speed", use "Reduced page load time by 40% utilizing lazy loading and asset minification."</li>
-                        <li style="margin-bottom: 16px;"><strong>Expand on current role:</strong> Your most recent position has too few bullet points. Aim for 4-5 high-impact statements.</li>
-                        <li><strong>Match keywords:</strong> Ensure terms like "React", "TypeScript", and "Performance Optimization" appear natively in your bullet points, not just in a skills list.</li>
+
+                    <ul class="list-items" id="recommendations-list"
+                        style="color: var(--text-primary); margin-top: 8px;">
                     </ul>
                 </div>
             </div>
-            
+
             <div style="text-align: center; margin-top: 32px;">
-                <button type="button" class="btn-primary" id="reset-btn" style="width: auto; padding: 12px 32px; display: inline-flex; background: #fff; color: var(--text-primary); border: 1px solid var(--border-light);">
+                <button type="button" class="btn-primary" id="reset-btn"
+                    style="width: auto; padding: 12px 32px; display: inline-flex; background: #fff; color: var(--text-primary); border: 1px solid var(--border-light);">
                     Analyze Another Resume
                 </button>
             </div>
@@ -752,11 +819,11 @@ With an ATS-Optimized Resume</h1>
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const targetPanelId = btn.getAttribute('aria-controls');
-                    
+
                     // Reset all
                     tabBtns.forEach(b => b.setAttribute('aria-selected', 'false'));
                     tabPanels.forEach(p => p.classList.remove('active'));
-                    
+
                     // Activate selected
                     btn.setAttribute('aria-selected', 'true');
                     document.getElementById(targetPanelId).classList.add('active');
@@ -777,6 +844,7 @@ With an ATS-Optimized Resume</h1>
 
             function preventDefaults(e) {
                 e.preventDefault();
+
                 e.stopPropagation();
             }
 
@@ -793,7 +861,7 @@ With an ATS-Optimized Resume</h1>
             dropZone.addEventListener('drop', (e) => {
                 let dt = e.dataTransfer;
                 let files = dt.files;
-                if(files.length) {
+                if (files.length) {
                     fileInput.files = files;
                     updateFileDisplay();
                 }
@@ -819,36 +887,155 @@ With an ATS-Optimized Resume</h1>
             const resultsSection = document.getElementById('results-section');
             const resetBtn = document.getElementById('reset-btn');
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                // Basic Validation Check
-                const roleSelect = document.getElementById('role-select');
-                if(!roleSelect.value) {
-                    roleSelect.focus();
-                    return;
-                }
+            form.addEventListener('submit', async (e) => {
 
-                // Simulate Loading state
+                e.preventDefault();
+
+                console.log('Before fetch');
+
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
-                // Fake API Call Delay
-                setTimeout(() => {
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
-                    
-                    // Transition to results
+                try {
+                    const formData = new FormData();
+
+                    const resumeText = document.getElementById('text-input').value;
+                    const file = document.getElementById('file-upload').files[0];
+                    const role = document.getElementById('role-select').value;
+
+                    if (!role) {
+                        alert('Please select a target role');
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                        return;
+                    }
+
+                    formData.append('role', role);
+
+                    formData.append('resumeText', resumeText);
+
+                    console.log('FILE:', file);
+                    console.log('TEXT:', resumeText);
+
+                    if (file) {
+                        formData.append('resume', file);
+                    }
+
+
+
+
+
+                    const response = await fetch('http://localhost:5000/api/analyze', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+
+                    const data = await response.json();
+
+                    console.log(data);
+
+                    if (!data.success) {
+                        alert(data.message);
+
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+
+                        return;
+                    }
+
+                    document.getElementById('score-circle').textContent = data.score;
+                    const scoreTitle = document.getElementById('score-title');
+                    const scoreMessage = document.getElementById('score-message');
+
+                    if (data.score >= 90) {
+                        scoreTitle.textContent = "Excellent ATS Score";
+                        scoreMessage.textContent = "Your resume is highly optimized, contains core keywords, and perfectly matches the target role requirements.";
+                        scoreTitle.style.color = "var(--success-color)";
+                    } else if (data.score >= 70) {
+                        scoreTitle.textContent = "Strong Resume";
+                        scoreMessage.textContent = "Your resume passes most standard ATS filters, but adding a few missing technical keywords will give you a competitive edge.";
+                        scoreTitle.style.color = "var(--text-primary)";
+                    } else if (data.score >= 50) {
+                        scoreTitle.textContent = "Needs Improvement";
+                        scoreMessage.textContent = "Your resume is missing several core skills for this role. It may struggle to pass strict applicant tracking systems.";
+                        scoreTitle.style.color = "#d97706";
+                    } else {
+                        scoreTitle.textContent = "Poor ATS Compatibility";
+                        scoreMessage.textContent = "Your resume lacks significant keywords required for this position. We highly recommend revising it based on the feedback below.";
+                        scoreTitle.style.color = "var(--danger-color)";
+                    }
+                    const roleResult = document.getElementById('role-result');
+
+                    roleResult.textContent =
+                        'Target Role: ' + data.role.toUpperCase();
+                    const summaryElement = document.getElementById('dynamic-summary');
+
+                    // Format the role nicely (e.g., 'frontend' -> 'Frontend Developer')
+                    let displayRole = data.role.charAt(0).toUpperCase() + data.role.slice(1);
+                    if (displayRole !== 'Fullstack') {
+                        displayRole += ' Developer';
+                    } else {
+                        displayRole = 'Full Stack Developer';
+                    }
+
+                    // Generate the summary sentence based on missing skills
+                    if (data.missingSkills.length === 0) {
+                        summaryElement.textContent = `Excellent fit! Your resume perfectly matches the core ${displayRole} requirements.`;
+                    } else {
+                        // Grab just the first 1 or 2 missing skills to keep the sentence natural
+                        const missingHighlight = data.missingSkills.slice(0, 2).join(' and ');
+                        summaryElement.textContent = `Your resume strongly matches ${displayRole} requirements, but lacks explicit experience with ${missingHighlight}.`;
+                    }
+                    const strengthsList = document.getElementById('strengths-list');
+
+                    strengthsList.innerHTML = '';
+
+                    data.foundSkills.forEach(skill => {
+                        strengthsList.innerHTML += `<li>${skill}</li>`;
+                    });
+                    const missingList = document.getElementById('missing-skills-list');
+
+                    missingList.innerHTML = '';
+
+                    data.missingSkills.forEach(skill => {
+                        missingList.innerHTML += `<li>${skill}</li>`;
+                    });
+                    const recommendationsList = document.getElementById('recommendations-list');
+
+                    recommendationsList.innerHTML = '';
+
+                    data.recommendations.forEach(item => {
+                        recommendationsList.innerHTML += `<li>${item}</li>`;
+                    });
+
                     analyzerContainer.style.display = 'none';
                     resultsSection.style.display = 'block';
-                    
-                    // Scroll to results
-                    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 1500);
+
+                    console.log('Score:', data.score);
+
+
+
+
+                    console.log('Results display:', resultsSection.style.display);
+                    console.log('Results element:', resultsSection);
+
+                    // resultsSection.scrollIntoView({
+                    //     behavior: 'smooth',
+                    //     block: 'start'
+                    // });
+                } catch (err) {
+                    alert('Backend Error');
+                    console.error(err);
+                }
+
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
             });
 
             // Reset Logic
             resetBtn.addEventListener('click', () => {
+
                 form.reset();
                 uploadContent.style.display = 'block';
                 fileDisplay.style.display = 'none';
@@ -858,5 +1045,7 @@ With an ATS-Optimized Resume</h1>
             });
         });
     </script>
+
 </body>
+
 </html>
