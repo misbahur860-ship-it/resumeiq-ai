@@ -4,8 +4,8 @@
   "description": "AI-powered resume analyzer for students, freshers, and job seekers.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "start": "node backend/server.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
