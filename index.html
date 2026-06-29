@@ -604,6 +604,19 @@
 </head>
 
 <body>
+    <div id="auth-screen" style="text-align: center; padding: 50px; background: white; z-index: 1000; position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: sans-serif;">
+    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">Welcome to ResumeIQ</h2>
+    <p style="margin-bottom: 20px; color: #555;">Please sign in to analyze your resume.</p>
+    <input type="email" id="email-input" placeholder="Email" style="padding: 12px; margin: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;"/>
+    <input type="password" id="password-input" placeholder="Password" style="padding: 12px; margin: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;"/>
+    <div style="margin-top: 15px;">
+        <button id="login-btn" style="padding: 10px 20px; margin: 5px; cursor: pointer; background-color: #000; color: #fff; border: none; border-radius: 5px;">Log In</button>
+        <button id="signup-btn" style="padding: 10px 20px; margin: 5px; cursor: pointer; background-color: #fff; color: #000; border: 1px solid #000; border-radius: 5px;">Sign Up</button>
+    </div>
+    <p id="auth-error" style="color: red; margin-top: 15px;"></p>
+</div>
+
+<button id="logout-btn" style="display: none; position: absolute; top: 20px; right: 20px; padding: 10px 20px; cursor: pointer; background: #ff4444; color: white; border: none; border-radius: 5px; z-index: 999;">Log Out</button>
 
     <nav aria-label="Main Navigation">
         <div class="container nav-inner">
@@ -1045,6 +1058,60 @@
             });
         });
     </script>
+    <script type="module">
+    // Import Firebase tools over the internet
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Your exact Firebase keys
+    const firebaseConfig = {
+        apiKey: "AIzaSyDFUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
+        authDomain: "resumeiq-a047b.firebaseapp.com",
+        projectId: "resumeiq-a047b",
+        storageBucket: "resumeiq-a047b.firebasestorage.app",
+        messagingSenderId: "667469591472",
+        appId: "1:667469591472:web:40004760487ce3cde11c75"
+    };
+
+    // Initialize Security
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Connect to your new UI buttons
+    const authScreen = document.getElementById('auth-screen');
+    const logoutBtn = document.getElementById('logout-btn');
+    const emailInput = document.getElementById('email-input');
+    const passwordInput = document.getElementById('password-input');
+    const authError = document.getElementById('auth-error');
+
+    // This constantly checks if someone is logged in or not
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // Success! Hide login screen, show logout button
+            authScreen.style.display = 'none';
+            logoutBtn.style.display = 'block';
+        } else {
+            // Locked out! Show login screen, hide logout button
+            authScreen.style.display = 'flex';
+            logoutBtn.style.display = 'none';
+        }
+    });
+
+    // Handle Sign Up click
+    document.getElementById('signup-btn').addEventListener('click', () => {
+        createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+            .catch(error => authError.textContent = error.message.replace('Firebase: ', ''));
+    });
+
+    // Handle Log In click
+    document.getElementById('login-btn').addEventListener('click', () => {
+        signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+            .catch(error => authError.textContent = "Invalid email or password.");
+    });
+
+    // Handle Log Out click
+    logoutBtn.addEventListener('click', () => signOut(auth));
+</script>
 
 </body>
 
