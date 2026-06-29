@@ -1058,60 +1058,60 @@
             });
         });
     </script>
-    <script type="module">
-    // Import Firebase tools over the internet
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+   <script type="module">
+        // Import Firebase tools over the internet
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    // Your exact Firebase keys
-    const firebaseConfig = {
-        apiKey: "AIzaSyDFUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
-        authDomain: "resumeiq-a047b.firebaseapp.com",
-        projectId: "resumeiq-a047b",
-        storageBucket: "resumeiq-a047b.firebasestorage.app",
-        messagingSenderId: "667469591472",
-        appId: "1:667469591472:web:40004760487ce3cde11c75"
-    };
+        // Your exact Firebase keys
+        const firebaseConfig = {
+            apiKey: "AIzaSyDfUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
+            authDomain: "resumeiq-a047b.firebaseapp.com",
+            projectId: "resumeiq-a047b",
+            storageBucket: "resumeiq-a047b.firebasestorage.app",
+            messagingSenderId: "667469591472",
+            appId: "1:667469591472:web:40004768487ce3cde11c75"
+        };
 
-    // Initialize Security
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+        // Initialize Security
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    // Connect to your new UI buttons
-    const authScreen = document.getElementById('auth-screen');
-    const logoutBtn = document.getElementById('logout-btn');
-    const emailInput = document.getElementById('email-input');
-    const passwordInput = document.getElementById('password-input');
-    const authError = document.getElementById('auth-error');
+        // Connect to your new UI buttons
+        const authScreen = document.getElementById('auth-screen');
+        const logoutBtn = document.getElementById('logout-btn');
+        const emailInput = document.getElementById('email-input');
+        const passwordInput = document.getElementById('password-input');
+        const authError = document.getElementById('auth-error');
 
-    // This constantly checks if someone is logged in or not
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // Success! Hide login screen, show logout button
-            authScreen.style.display = 'none';
-            logoutBtn.style.display = 'block';
-        } else {
-            // Locked out! Show login screen, hide logout button
-            authScreen.style.display = 'flex';
-            logoutBtn.style.display = 'none';
-        }
-    });
+        // This constantly checks if someone is logged in or not
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Success! Hide login screen, show logout button
+                authScreen.style.display = 'none';
+                logoutBtn.style.display = 'block';
+            } else {
+                // Locked out! Show login screen, hide logout button
+                authScreen.style.display = 'flex';
+                logoutBtn.style.display = 'none';
+            }
+        });
 
-    // Handle Sign Up click
-    document.getElementById('signup-btn').addEventListener('click', () => {
-        createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-            .catch(error => authError.textContent = error.message.replace('Firebase: ', ''));
-    });
+        // Handle Sign Up click
+        document.getElementById('signup-btn').addEventListener('click', () => {
+            createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+                .catch(error => authError.textContent = error.message.replace('Firebase: ', ''));
+        });
 
-    // Handle Log In click
-    document.getElementById('login-btn').addEventListener('click', () => {
-        signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-            .catch(error => authError.textContent = "Invalid email or password.");
-    });
+        // Handle Log In click
+        document.getElementById('login-btn').addEventListener('click', () => {
+            signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+                .catch(error => authError.textContent = "Invalid email or password.");
+        });
 
-    // Handle Log Out click
-    logoutBtn.addEventListener('click', () => signOut(auth));
-</script>
+        // Handle Log Out click
+        logoutBtn.addEventListener('click', () => signOut(auth));
+    </script>
 
 </body>
 
