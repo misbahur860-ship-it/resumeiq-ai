@@ -616,26 +616,52 @@
     <p id="auth-error" style="color: red; margin-top: 15px;"></p>
 </div>
 
-<button id="logout-btn" style="display: none; position: absolute; top: 20px; right: 20px; padding: 10px 20px; cursor: pointer; background: #ff4444; color: white; border: none; border-radius: 5px; z-index: 999;">Log Out</button>
+<!-- NAVBAR STYLES -->
+<style>
+    .nav-links { display: flex; align-items: center; gap: 20px; }
+    .nav-links a, .mobile-menu a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; }
+    .nav-links a:hover, .mobile-menu a:hover { color: #000; }
+    .hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: #000; }
+    .mobile-menu { display: none; flex-direction: column; background: #fafafa; padding: 20px; border-bottom: 1px solid #eaeaea; }
+    .mobile-menu.active { display: flex; }
+    .mobile-menu a { padding: 12px 0; border-bottom: 1px solid #eee; }
+    .btn-black { background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: bold; border: none; cursor: pointer; }
+    
+    @media (max-width: 768px) {
+        .nav-links { display: none; }
+        .hamburger { display: block; }
+    }
+</style>
 
-    <nav aria-label="Main Navigation">
-        <div class="container nav-inner">
-            <a href="/" class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                    <polyline points="14 2 14 8 20 8"></polyline>
-                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                    <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                ResumeIQ
-            </a>
-            <a href="#analyzer-container" class="nav-cta">
-                Analyze Resume
-            </a>
-        </div>
-    </nav>
+<!-- NAVIGATION BAR -->
+<nav id="main-nav" style="display: none; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid #eaeaea; font-family: sans-serif; position: sticky; top: 0; z-index: 998;">
+    <!-- Logo -->
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 22px; color: #000;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        ResumeIQ
+    </div>
+
+    <!-- Desktop Links -->
+    <div id="desktop-links" class="nav-links">
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <button id="nav-logout-btn" class="btn-black">Log Out</button>
+    </div>
+
+    <!-- Mobile Hamburger -->
+    <button id="mobile-menu-btn" class="hamburger">☰</button>
+</nav>
+
+<!-- Mobile Dropdown Menu -->
+<div id="mobile-dropdown" class="mobile-menu">
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+    <a href="#">Privacy Policy</a>
+    <button id="mobile-logout-btn" class="btn-black" style="margin-top: 15px; width: 100%;">Log Out</button>
+</div>
+
+    
 
     <main>
         <section class="hero container">
@@ -1058,60 +1084,67 @@
             });
         });
     </script>
-   <script type="module">
-        // Import Firebase tools over the internet
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        // Your exact Firebase keys
-        const firebaseConfig = {
-            apiKey: "AIzaSyDfUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
-            authDomain: "resumeiq-a047b.firebaseapp.com",
-            projectId: "resumeiq-a047b",
-            storageBucket: "resumeiq-a047b.firebasestorage.app",
-            messagingSenderId: "667469591472",
-            appId: "1:667469591472:web:40004768487ce3cde11c75"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyDfUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
+        authDomain: "resumeiq-a047b.firebaseapp.com",
+        projectId: "resumeiq-a047b",
+        storageBucket: "resumeiq-a047b.firebasestorage.app",
+        messagingSenderId: "667469591472",
+        appId: "1:667469591472:web:40004768487ce3cde11c75"
+    };
 
-        // Initialize Security
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-        // Connect to your new UI buttons
-        const authScreen = document.getElementById('auth-screen');
-        const logoutBtn = document.getElementById('logout-btn');
-        const emailInput = document.getElementById('email-input');
-        const passwordInput = document.getElementById('password-input');
-        const authError = document.getElementById('auth-error');
+    // UI Elements
+    const authScreen = document.getElementById('auth-screen');
+    const mainNav = document.getElementById('main-nav');
+    const mobileDropdown = document.getElementById('mobile-dropdown');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    
+    const navLogoutBtn = document.getElementById('nav-logout-btn');
+    const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+    
+    const emailInput = document.getElementById('email-input');
+    const passwordInput = document.getElementById('password-input');
+    const authError = document.getElementById('auth-error');
 
-        // This constantly checks if someone is logged in or not
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // Success! Hide login screen, show logout button
-                authScreen.style.display = 'none';
-                logoutBtn.style.display = 'block';
-            } else {
-                // Locked out! Show login screen, hide logout button
-                authScreen.style.display = 'flex';
-                logoutBtn.style.display = 'none';
-            }
-        });
+    // Toggle Mobile Menu
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileDropdown.classList.toggle('active');
+    });
 
-        // Handle Sign Up click
-        document.getElementById('signup-btn').addEventListener('click', () => {
-            createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-                .catch(error => authError.textContent = error.message.replace('Firebase: ', ''));
-        });
+    // Authentication State
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            authScreen.style.display = 'none';
+            mainNav.style.display = 'flex'; // Shows navbar
+        } else {
+            authScreen.style.display = 'flex';
+            mainNav.style.display = 'none'; // Hides navbar
+            mobileDropdown.classList.remove('active');
+        }
+    });
 
-        // Handle Log In click
-        document.getElementById('login-btn').addEventListener('click', () => {
-            signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-                .catch(error => authError.textContent = "Invalid email or password.");
-        });
+    // Login & Signup Actions
+    document.getElementById('signup-btn').addEventListener('click', () => {
+        createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+            .catch(error => authError.textContent = error.message.replace('Firebase: ', ''));
+    });
 
-        // Handle Log Out click
-        logoutBtn.addEventListener('click', () => signOut(auth));
-    </script>
+    document.getElementById('login-btn').addEventListener('click', () => {
+        signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+            .catch(error => authError.textContent = "Invalid email or password.");
+    });
+
+    // Logout Actions
+    navLogoutBtn.addEventListener('click', () => signOut(auth));
+    mobileLogoutBtn.addEventListener('click', () => signOut(auth));
+</script>
 
 </body>
 
