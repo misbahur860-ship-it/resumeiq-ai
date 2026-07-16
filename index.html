@@ -574,75 +574,115 @@
         .footer-links a:hover {
             color: var(--text-primary);
         }
-        /* Authentication Screen */
-        .auth-overlay{
-    min-height:100vh;
-    display:grid;
-    grid-template-columns:1.1fr 0.9fr;
-    background:#f8fafc;
-}
-        .auth-card {
-    background: var(--bg-color);
-    padding: 40px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-light);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-
-    width: 100%;
-    max-width: 420px;
-
-    text-align: center;
-    animation: fadeIn 0.4s ease;
-
-    align-self: center;
-    justify-self: center;
-}
-        .auth-logo {
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            font-weight: 800; font-size: 1.5rem; margin-bottom: 24px; color: var(--text-primary);
+      /* Authentication Screen Layout */
+        
+        /* This rule prevents the main app from overlapping the auth screen */
+        #auth-screen:not([style*="display: none"]) ~ main,
+        #auth-screen:not([style*="display: none"]) ~ footer {
+            display: none !important;
         }
+
+        .auth-overlay {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: #f8fafc;
+        }
+
+        .auth-left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            background: var(--bg-color);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .brand {
+            max-width: 480px;
+        }
+
+        .brand h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .brand h2 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+        }
+
+        .brand p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Temp Auth Card styles (to be refined in Step 2) */
+        .auth-card {
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            align-self: center;
+            justify-self: center;
+        }
+        .auth-logo { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 800; font-size: 1.5rem; margin-bottom: 24px; color: var(--text-primary); }
         .auth-card h2 { font-size: 1.5rem; margin-bottom: 8px; font-weight: 700; }
         .auth-card p { color: var(--text-secondary); margin-bottom: 24px; font-size: 0.95rem; }
-        .auth-input {
-            width: 100%; padding: 14px 16px; margin-bottom: 16px;
-            border: 1px solid var(--border-light); border-radius: var(--radius-md);
-            font-size: 0.95rem; font-family: inherit; transition: all 0.2s ease;
-        }
-        .auth-input:focus { border-color: var(--accent-black); outline: none; box-shadow: 0 0 0 1px var(--accent-black); }
+        .auth-input { width: 100%; padding: 14px 16px; margin-bottom: 16px; border: 1px solid var(--border-light); border-radius: var(--radius-md); font-size: 0.95rem; font-family: inherit; }
         .auth-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-        .btn-auth {
-            width: 100%; padding: 14px; font-size: 1rem; font-weight: 600; font-family: inherit;
-            border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; display: block;
-        }
+        .btn-auth { width: 100%; padding: 14px; font-size: 1rem; font-weight: 600; font-family: inherit; border-radius: var(--radius-md); cursor: pointer; display: block; }
         .btn-auth-primary { background: var(--accent-black); color: white; border: none; }
-        .btn-auth-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .btn-auth-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-light); }
-        .btn-auth-secondary:hover { border-color: var(--text-primary); background: var(--surface-color); }
+
+        /* Navbar Layout */
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        .nav-links a, .mobile-menu a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; }
+        .nav-links a:hover, .mobile-menu a:hover { color: #000; }
+        .hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: #000; }
+        .mobile-menu { display: none; flex-direction: column; background: #fafafa; padding: 20px; border-bottom: 1px solid #eaeaea; }
+        .mobile-menu.active { display: flex; }
+        .mobile-menu a { padding: 12px 0; border-bottom: 1px solid #eee; }
+        .btn-black { background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: bold; border: none; cursor: pointer; }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .score-card {
-                flex-direction: column;
-                text-align: center;
-                gap: 16px;
-            }
-
-            .feedback-grid {
+        @media (max-width: 900px) {
+            .auth-overlay {
                 grid-template-columns: 1fr;
             }
-
-            .footer-inner {
-                flex-direction: column;
-                gap: 16px;
+            .auth-left {
+                display: none;
             }
-
-            .form-area {
-                padding: 24px 16px;
+            .auth-card {
+                margin: auto;
             }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .score-card { flex-direction: column; text-align: center; gap: 16px; }
+            .feedback-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 16px; }
+            .form-area { padding: 24px 16px; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
         }
     </style>
 </head>
@@ -731,74 +771,6 @@
 
 </div>
 
-<!-- NAVBAR STYLES -->
-<style>
-    .nav-links { display: flex; align-items: center; gap: 20px; }
-    .nav-links a, .mobile-menu a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; }
-    .nav-links a:hover, .mobile-menu a:hover { color: #000; }
-    .hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: #000; }
-    .mobile-menu { display: none; flex-direction: column; background: #fafafa; padding: 20px; border-bottom: 1px solid #eaeaea; }
-    .mobile-menu.active { display: flex; }
-    .mobile-menu a { padding: 12px 0; border-bottom: 1px solid #eee; }
-    .btn-black { background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 14px; font-weight: bold; border: none; cursor: pointer; }
-    
-    @media (max-width: 768px) {
-        .nav-links { display: none; }
-        .hamburger { display: block; }
-    }
-    .auth-left{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:80px;
-    background:#ffffff;
-}
-
-.brand{
-    max-width:520px;
-}
-
-.brand h1{
-    font-size:34px;
-    margin-bottom:30px;
-}
-
-.brand h2{
-    font-size:58px;
-    line-height:1.05;
-    font-weight:800;
-    margin-bottom:24px;
-}
-
-.brand p{
-    font-size:18px;
-    color:#64748B;
-    line-height:1.7;
-    margin-bottom:40px;
-}
-
-.feature-list{
-    display:flex;
-    flex-direction:column;
-    gap:18px;
-    font-size:17px;
-    color:#334155;
-}
-    @media (max-width:900px){
-
-.auth-overlay{
-    grid-template-columns:1fr;
-}
-
-.auth-left{
-    display:none;
-}
-
-.auth-card{
-    margin:auto;
-}
-}
-</style>
 
 <!-- NAVIGATION BAR -->
 <nav id="main-nav" style="display: none; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid #eaeaea; font-family: sans-serif; position: sticky; top: 0; z-index: 998;">
