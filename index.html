@@ -1071,7 +1071,7 @@
                     </button>
                 </div>
 
-                <a href="#" class="forgot-link">Forgot password?</a>
+                <a href="#" id="forgot-password-link" class="forgot-link">Forgot password?</a>
 
                 <div class="auth-actions">
                     <button id="login-btn" class="btn-auth btn-auth-primary">Log In</button>
@@ -1530,7 +1530,7 @@
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDfUXF5QTjBIobHwqx6dS0eatu4T_1a_lM",
@@ -1584,6 +1584,28 @@
             signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
                 .catch(error => authError.textContent = "Invalid email or password.");
         });
+        // Forgot Password
+document.getElementById('forgot-password-link').addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    if (!email) {
+        authError.textContent = "Please enter your email address first.";
+        return;
+    }
+
+    sendPasswordResetEmail(auth, email)
+        .then(() => {
+            authError.style.color = "var(--success-color)";
+            authError.textContent = "Password reset email sent. Please check your inbox.";
+        })
+        .catch((error) => {
+            authError.style.color = "var(--danger-color)";
+            authError.textContent = "Unable to send password reset email. Please check your email address.";
+            console.error(error);
+        });
+});
 
         // Logout Actions
         navLogoutBtn.addEventListener('click', () => signOut(auth));
