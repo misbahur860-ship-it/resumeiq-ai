@@ -987,6 +987,112 @@
                 text-align: center;
             }
         }
+        /* =========================================
+           DESKTOP-ONLY IMPROVEMENTS (min-width: 901px)
+           Mobile view remains 100% untouched
+           ========================================= */
+        @media (min-width: 901px) {
+            /* 1. Navbar Hover States */
+            .nav-links a {
+                padding: 6px 12px;
+                border-radius: var(--radius-sm);
+            }
+            .nav-links a:hover {
+                background: rgba(15, 23, 42, 0.04);
+            }
+
+            /* 2. Hero & Workspace Spacing (Pulling the analyzer up) */
+            main {
+                padding-top: 16px;
+                padding-bottom: 64px;
+            }
+            .hero {
+                padding: 24px 0 32px;
+            }
+            .hero h2 {
+                font-size: 3rem;
+                margin-bottom: 12px;
+            }
+            .hero p {
+                font-size: 1.05rem;
+            }
+            .workspace {
+                margin-top: -8px;
+            }
+
+            /* 3. Compact Feature Cards (Secondary to analyzer) */
+            .features {
+                padding: 32px 0 0;
+                margin-top: 40px;
+            }
+            .features-grid {
+                gap: 20px;
+            }
+            .feature-card {
+                padding: 24px;
+            }
+            .feature-icon {
+                width: 28px;
+                height: 28px;
+                margin-bottom: 12px;
+                color: var(--text-secondary);
+            }
+            .feature-title {
+                font-size: 1rem;
+                margin-bottom: 4px;
+            }
+            .feature-desc {
+                font-size: 0.875rem;
+            }
+
+            /* 4. Results Dashboard Hierarchy */
+            .results-header {
+                margin-bottom: 24px;
+            }
+            .results-header h2 {
+                font-size: 2rem;
+            }
+            .results-header p#role-result {
+                font-size: 0.8125rem;
+                display: inline-block;
+                background: rgba(37, 99, 235, 0.1);
+                padding: 4px 12px;
+                border-radius: 20px;
+                margin-bottom: 4px;
+            }
+            
+            /* Center and focus the ATS Score */
+            .score-card {
+                padding: 32px;
+                justify-content: center;
+                gap: 32px;
+                margin-bottom: 40px;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .score-details {
+                max-width: 320px;
+            }
+            .score-details h3 {
+                font-size: 1.25rem;
+                margin-bottom: 4px;
+            }
+            .score-details p {
+                font-size: 0.95rem;
+            }
+
+            /* Equal-height side-by-side cards */
+            .feedback-grid {
+                align-items: stretch;
+            }
+            .feedback-card {
+                padding: 24px;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+        }
     </style>
 </head>
 
