@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
 const fs = require('fs');
+const { GoogleGenerativeAI, SchemaType } = require('@google/generative-ai');
 
 const app = express();
 
@@ -11,11 +13,41 @@ app.use(express.json());
 
 const upload = multer({ dest: 'uploads/' });
 
+// Initialize Gemini safely using your environment secret
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
 app.get('/', (req, res) => {
     res.json({
         message: 'ResumeIQ Backend Running'
     });
 });
+
+// Enforce structured data output formatting from Gemini
+const responseSchema = {
+    type: SchemaType.OBJECT,
+    properties: {
+        score: { 
+            type: SchemaType.INTEGER, 
+            description: "Strict ATS comparison score from 0 to 100 based on matching target requirements." 
+        },
+        foundSkills: { 
+            type: SchemaType.ARRAY, 
+            items: { type: SchemaType.STRING }, 
+            description: "Technical skills, frameworks, and tools present in the resume matching the role." 
+        },
+        missingSkills: { 
+            type: SchemaType.ARRAY, 
+            items: { type: SchemaType.STRING }, 
+            description: "Core missing technologies, industry skills, or key buzzwords required for the role." 
+        },
+        recommendations: { 
+            type: SchemaType.ARRAY, 
+            items: { type: SchemaType.STRING }, 
+            description: "3 to 5 highly specific recruiter tips highlighting project enhancements or metric modifications." 
+        }
+    },
+    required: ["score", "foundSkills", "missingSkills", "recommendations"]
+};
 
 app.post('/api/analyze', upload.single('resume'), async (req, res) => {
     try {
@@ -23,14 +55,12 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
         console.log("STEP 1");
 
         let text = '';
-
         const role = req.body.role || 'fullstack';
-
         console.log('ROLE:', role);
 
         // Text Mode
         if (!req.file) {
-            text = (req.body.resumeText || '').toLowerCase();
+            text = req.body.resumeText || '';
         }
         // PDF Mode
         else {
@@ -40,150 +70,68 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
             const pdfData = await pdfParse(dataBuffer);
             console.log("STEP 3");
 
-            text = pdfData.text.toLowerCase();
+            text = pdfData.text;
+
+            // Render Cleanup: Remove the temp file immediately after reading to safeguard storage limits
+            try {
+                fs.unlinkSync(req.file.path);
+            } catch (unlinkErr) {
+                console.error("Temp file removal skipped:", unlinkErr);
+            }
         }
 
         console.log("STEP 4");
-        console.log(text.substring(0, 200));
-        const resumeKeywords = [
-            'education',
-            'experience',
-            'skills',
-            'project',
-            'email',
-            'phone'
-        ];
-
-        let resumeMatches = 0;
-
-        resumeKeywords.forEach(keyword => {
-            if (text.includes(keyword)) {
-                resumeMatches++;
-            }
-        });
-
-        if (resumeMatches < 2) {
+        
+        if (!text || text.trim() === "") {
             return res.json({
                 success: false,
-                message: 'This does not appear to be a resume.'
+                message: 'No text details could be gathered. Please paste text or check your PDF.'
             });
         }
 
-        let score = 0;
+        console.log(`Initiating Gemini Analysis for engineering path: ${role}...`);
 
-        let desiredSkills = [];
-
-        if (role === 'frontend') {
-            desiredSkills = [
-                'html',
-                'css',
-                'javascript',
-                'react',
-                'typescript'
-            ];
-        }
-        else if (role === 'backend') {
-            desiredSkills = [
-                'node',
-                'express',
-                'mongodb',
-                'api',
-                'docker'
-            ];
-        }
-        else {
-            desiredSkills = [
-                'html',
-                'css',
-                'javascript',
-                'react',
-                'node',
-                'express',
-                'mongodb',
-                'api'
-            ];
-        }
-
-        let missingSkills = [];
-        let foundSkills = [];
-        let recommendations = [];
-
-
-        desiredSkills.forEach(skill => {
-            if (text.includes(skill)) {
-                score += Math.floor(100 / desiredSkills.length);
-                foundSkills.push(skill);
+        // Set up the high-speed Gemini 1.5 Flash model with explicit JSON schemas
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash",
+            generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: responseSchema,
             }
         });
-        desiredSkills.forEach(skill => {
-            if (!text.includes(skill)) {
-                missingSkills.push(skill);
-            }
-        });
-        missingSkills.forEach(skill => {
 
-            switch (skill) {
+        const prompt = `
+            You are an advanced technical recruiter and an objective Applicant Tracking System (ATS).
+            Evaluate this developer resume against the specific career target profile: "${role}".
+            
+            Scan technical skills, frame evaluation strictly on standard job criteria, verify metric impact statements, and format structural evaluations.
+            Determine an accurate overall score out of 100, catalogue explicit technical tools found, reveal the key technical gaps missing, and map distinct improvement directives.
 
-                case 'typescript':
-                    recommendations.push('Learn TypeScript and build at least one project using it.');
-                    break;
+            Resume Content:
+            ${text}
+        `;
 
-                case 'docker':
-                    recommendations.push('Learn Docker to improve deployment and DevOps skills.');
-                    break;
+        const result = await model.generateContent(prompt);
+        const geminiResponse = JSON.parse(result.response.text());
 
-                case 'node':
-                    recommendations.push('Create a backend project using Node.js.');
-                    break;
-
-                case 'express':
-                    recommendations.push('Build REST APIs with Express.js.');
-                    break;
-
-                case 'mongodb':
-                    recommendations.push('Add MongoDB database experience to your resume.');
-                    break;
-
-                case 'react':
-                    recommendations.push('Develop a React project to strengthen your frontend profile.');
-                    break;
-
-                case 'html':
-                    recommendations.push('Improve your HTML fundamentals.');
-                    break;
-
-                case 'css':
-                    recommendations.push('Practice responsive CSS layouts.');
-                    break;
-
-                case 'javascript':
-                    recommendations.push('Strengthen your JavaScript problem-solving skills.');
-                    break;
-
-                case 'api':
-                    recommendations.push('Mention REST API development or API integration projects.');
-                    break;
-            }
-
-        });
-        if (score > 100) score = 100;
-
+        // Return clean results mapped to your exact UI components
         res.json({
             success: true,
             role,
-            score,
-            foundSkills,
-            missingSkills,
-            recommendations,
+            score: geminiResponse.score,
+            foundSkills: geminiResponse.foundSkills,
+            missingSkills: geminiResponse.missingSkills,
+            recommendations: geminiResponse.recommendations,
             textLength: text.length,
             preview: text.substring(0, 500)
         });
+
     } catch (err) {
-        console.error(err);
+        console.error("AI Analysis Engine Error:", err);
 
         res.status(500).json({
             success: false,
-            message: 'PDF parsing failed'
+            message: 'AI resume evaluation process encountered an issue. Please try again.'
         });
     }
 });
