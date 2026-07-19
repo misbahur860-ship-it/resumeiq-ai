@@ -1403,9 +1403,30 @@
        document.addEventListener('DOMContentLoaded', () => {
             
             // 1. Refresh the page when clicking the logo
+            // 1. Professional Soft Reset: Resets UI to initial state instantly
             document.getElementById('nav-logo-link').addEventListener('click', (e) => {
                 e.preventDefault();
-                window.location.reload(); 
+                
+                // Smoothly scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                // Reset the Form
+                const form = document.getElementById('analyze-form');
+                if (form) form.reset();
+
+                // Reset UI visibility
+                document.getElementById('analyzer-container').style.display = 'block';
+                document.getElementById('results-section').style.display = 'none';
+                
+                // Reset File Upload UI
+                document.getElementById('upload-content').style.display = 'block';
+                document.getElementById('file-display').style.display = 'none';
+                
+                // Close Mobile Menu if it's open
+                const mobileMenu = document.getElementById('mobile-dropdown');
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                }
             });
 
             // 2. Handle all dead links (Dashboard, Resources, Footer) and Mobile Menu clicks
