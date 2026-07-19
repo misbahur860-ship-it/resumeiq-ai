@@ -1402,6 +1402,32 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Wake up the Render backend silently in the background
+            // Handle all dead links (Dashboard, Resources, Footer) and Mobile Menu clicks
+            document.querySelectorAll('a[href="#"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Ignore the forgot password link, it has its own logic
+                    if (link.id === 'forgot-password-link') return;
+
+                    e.preventDefault(); // Stop the page from aggressively jumping to the top
+
+                    const linkText = link.textContent.trim();
+
+                    // If they click Dashboard, smoothly scroll to the analyzer
+                    if (linkText === 'Dashboard') {
+                        document.querySelector('main').scrollIntoView({ behavior: 'smooth' });
+                    } 
+                    // For all other dummy links, show a polite portfolio message
+                    else {
+                        alert(`The ${linkText} page is currently under construction. Check back soon!`);
+                    }
+
+                    // If the user clicked a link inside the mobile dropdown, close the menu
+                    const mobileMenu = document.getElementById('mobile-dropdown');
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                });
+            });
 fetch('https://resumeiq-backend-vf3w.onrender.com/').catch(() => {});
             // Tab Logic
             const tabBtns = document.querySelectorAll('.tab-btn');
