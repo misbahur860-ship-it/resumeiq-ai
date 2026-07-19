@@ -4,7 +4,8 @@ const cors = require('cors');
 const multer = require('multer');
 const pdfParse = require('pdf-parse');
 const fs = require('fs');
-const { GoogleGenerativeAI, SchemaType } = require('@google/generative-ai');
+// Fix: We removed the broken SchemaType import from this line
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 
@@ -22,27 +23,27 @@ app.get('/', (req, res) => {
     });
 });
 
-// Enforce structured data output formatting from Gemini
+// Fix: We use raw uppercase strings instead of SchemaType to define the JSON structure
 const responseSchema = {
-    type: SchemaType.OBJECT,
+    type: "OBJECT",
     properties: {
         score: { 
-            type: SchemaType.INTEGER, 
+            type: "INTEGER", 
             description: "Strict ATS comparison score from 0 to 100 based on matching target requirements." 
         },
         foundSkills: { 
-            type: SchemaType.ARRAY, 
-            items: { type: SchemaType.STRING }, 
+            type: "ARRAY", 
+            items: { type: "STRING" }, 
             description: "Technical skills, frameworks, and tools present in the resume matching the role." 
         },
         missingSkills: { 
-            type: SchemaType.ARRAY, 
-            items: { type: SchemaType.STRING }, 
+            type: "ARRAY", 
+            items: { type: "STRING" }, 
             description: "Core missing technologies, industry skills, or key buzzwords required for the role." 
         },
         recommendations: { 
-            type: SchemaType.ARRAY, 
-            items: { type: SchemaType.STRING }, 
+            type: "ARRAY", 
+            items: { type: "STRING" }, 
             description: "3 to 5 highly specific recruiter tips highlighting project enhancements or metric modifications." 
         }
     },
