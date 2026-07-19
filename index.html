@@ -61,6 +61,15 @@
             flex-direction: column;
             min-height: 100vh;
         }
+        /* Prevent Auth Flash */
+        body {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        body.app-ready {
+            opacity: 1;
+        }
 
         /* Utility */
         .container {
@@ -1745,6 +1754,9 @@
         });
 
         // Authentication State
+        // Authentication State
+        let initialLoad = true; // Keeps track of the first page load
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 authScreen.style.display = 'none';
@@ -1753,6 +1765,12 @@
                 authScreen.style.display = 'grid';
                 mainNav.style.display = 'none'; // Hides navbar
                 mobileDropdown.classList.remove('active');
+            }
+
+            // Fade the app in ONLY after Firebase makes its initial decision
+            if (initialLoad) {
+                document.body.classList.add('app-ready');
+                initialLoad = false;
             }
         });
 
