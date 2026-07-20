@@ -94,7 +94,7 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
 
         // Set up the high-speed Gemini 1.5 Flash model with explicit JSON schemas
         const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
+    model: ""gemini-1.5-flash",
             generationConfig: {
                 responseMimeType: "application/json",
                 responseSchema: responseSchema,
