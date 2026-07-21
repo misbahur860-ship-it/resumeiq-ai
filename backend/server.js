@@ -9,11 +9,26 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 
-app.use(cors());
+// Lock down CORS to only accept requests from your Vercel frontend
+// IMPORTANT: Replace the URL below with your actual live Vercel link!
+// Lock down CORS to only accept requests from your Vercel frontend
+app.use(cors({
+    origin: ['http://localhost:5173', 'https://resumeiq-ai-gamma.vercel.app']
+}));
 app.use(express.json());
 
-const upload = multer({ dest: 'uploads/' });
-
+// Secure Multer: Limit to 5MB and explicitly only allow PDFs
+const upload = multer({ 
+    dest: 'uploads/',
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max size
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype === 'application/pdf') {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only PDF files are allowed.'), false);
+        }
+    }
+});
 // Initialize Gemini safely using your environment secret
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -22,7 +37,6 @@ app.get('/', (req, res) => {
         message: 'ResumeIQ Backend Running'
     });
 });
-
 // Fix: We use raw uppercase strings instead of SchemaType to define the JSON structure
 const responseSchema = {
     type: "OBJECT",
@@ -102,9 +116,13 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
         });
 
         const prompt = `
-            You are an advanced technical recruiter and an objective Applicant Tracking System (ATS).
+            You are an advanced technical recruiter and a strict, objective Applicant Tracking System (ATS).
             Evaluate this developer resume against the specific career target profile: "${role}".
             
+            CRITICAL INSTRUCTIONS FOR KEYWORDS:
+            1. "foundSkills": Extract ONLY technical skills explicitly written in the resume text. Do not invent skills.
+            2. "missingSkills": Identify core technologies typically required for a "${role}" that are ABSOLUTELY NOT present in the text. You MUST double-check the resume text. If a skill (e.g., Docker, AWS, PostgreSQL) is mentioned ANYWHERE in the resume, DO NOT put it in missingSkills.
+
             Scan technical skills, frame evaluation strictly on standard job criteria, verify metric impact statements, and format structural evaluations.
             Determine an accurate overall score out of 100, catalogue explicit technical tools found, reveal the key technical gaps missing, and map distinct improvement directives.
 
