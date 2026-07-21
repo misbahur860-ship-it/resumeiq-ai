@@ -678,10 +678,7 @@
             display: block;
         }
 
-        .btn-primary.loading .btn-text {
-            display: none;
-        }
-
+        
         @keyframes spin {
             100% {
                 transform: rotate(360deg);
@@ -1300,15 +1297,13 @@
                             </select>
                         </div>
                     </div>
+                    <!-- ADD THIS NEW ERROR BANNER -->
+<div id="analyze-error" style="display: none; color: var(--danger-color); background: rgba(239,68,68,0.1); padding: 12px; border-radius: 6px; font-size: 0.875rem; font-weight: 500; margin-bottom: 16px; border: 1px solid rgba(239,68,68,0.2);">
+</div>
 
-                    <button type="submit" class="btn-primary" id="submit-btn">
-                        <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                            stroke-linecap="round">
-                            <circle cx="12" cy="12" r="10" stroke-dasharray="31.4 31.4" stroke-opacity="0.3"></circle>
-                            <path d="M12 2a10 10 0 0 1 10 10"></path>
-                        </svg>
-                        <span class="btn-text">Analyze Resume</span>
-                    </button>
+
+
+                   
 
                     <div class="trust-badge">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -1539,50 +1534,64 @@
                 }
             }
 
-            // Form Submission Simulation
+            
+
+            // Form Submission Logic
             const form = document.getElementById('analyze-form');
             const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const analyzeError = document.getElementById('analyze-error');
             const analyzerContainer = document.getElementById('analyzer-container');
             const resultsSection = document.getElementById('results-section');
             const resetBtn = document.getElementById('reset-btn');
 
+            // Helper function for sleek errors
+            function showError(msg) {
+                analyzeError.textContent = msg;
+                analyzeError.style.display = 'block';
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                btnText.textContent = "Analyze Resume";
+            }
+
             form.addEventListener('submit', async (e) => {
-
                 e.preventDefault();
-
-                console.log('Before fetch');
-
+                
+                // Reset UI state
+                analyzeError.style.display = 'none';
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
+                btnText.textContent = "Scanning Resume...";
 
                 try {
-                    const formData = new FormData();
-
                     const resumeText = document.getElementById('text-input').value;
                     const file = document.getElementById('file-upload').files[0];
                     const role = document.getElementById('role-select').value;
 
+                    // 1. Instant Validation: Check Role
                     if (!role) {
-                        alert('Please select a target role');
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-                        return;
+                        return showError('Please select a target engineering role.');
                     }
 
-                    formData.append('role', role);
+                    // 2. Instant Validation: Check if Input Exists
+                    if (!file && !resumeText.trim()) {
+                        return showError('Please upload a PDF or paste your resume text.');
+                    }
 
-                    formData.append('resumeText', resumeText);
-
-                    console.log('FILE:', file);
-                    console.log('TEXT:', resumeText);
-
+                    // 3. Instant Validation: Check File Size & Type
                     if (file) {
-                        formData.append('resume', file);
+                        if (file.type !== 'application/pdf') {
+                            return showError('Invalid file type. Please upload a PDF document.');
+                        }
+                        if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                            return showError('File is too large. Maximum allowed size is 5MB.');
+                        }
                     }
 
-
-
-
+                    const formData = new FormData();
+                    formData.append('role', role);
+                    formData.append('resumeText', resumeText);
+                    if (file) formData.append('resume', file);
 
                     let data = null;
                     let maxRetries = 2; // Try up to 2 times to beat the cold start
@@ -1592,32 +1601,19 @@
                             method: 'POST',
                             body: formData
                         });
-
                         data = await response.json();
-
-                        // If successful, break out of the retry loop immediately
-                        if (data.success) {
-                            break;
-                        }
-
-                        // If it fails on the first try, wait 1.5 seconds and try again silently
+                        if (data.success) break;
                         if (i === 0) {
-                            console.log('Backend cold start detected. Retrying silently...');
+                            btnText.textContent = "Waking up server...";
                             await new Promise(resolve => setTimeout(resolve, 1500));
                         }
                     }
 
-                    console.log(data);
-
                     if (!data.success) {
-                        alert(data.message);
-
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-
-                        return;
+                        return showError(data.message || 'Analysis failed. Please check your document and try again.');
                     }
 
+                    // Success! Map the data to the UI
                     document.getElementById('score-circle').textContent = data.score;
                     const scoreTitle = document.getElementById('score-title');
                     const scoreMessage = document.getElementById('score-message');
@@ -1639,13 +1635,11 @@
                         scoreMessage.textContent = "Your resume lacks significant keywords required for this position. We highly recommend revising it based on the feedback below.";
                         scoreTitle.style.color = "var(--danger-color)";
                     }
+
                     const roleResult = document.getElementById('role-result');
-
-                    roleResult.textContent =
-                        'Target Role: ' + data.role.toUpperCase();
+                    roleResult.textContent = 'Target Role: ' + data.role.toUpperCase();
+                    
                     const summaryElement = document.getElementById('dynamic-summary');
-
-                    // Format the role nicely (e.g., 'frontend' -> 'Frontend Developer')
                     let displayRole = data.role.charAt(0).toUpperCase() + data.role.slice(1);
                     if (displayRole !== 'Fullstack') {
                         displayRole += ' Developer';
@@ -1653,70 +1647,57 @@
                         displayRole = 'Full Stack Developer';
                     }
 
-                    // Generate the summary sentence based on missing skills
                     if (data.missingSkills.length === 0) {
                         summaryElement.textContent = `Excellent fit! Your resume perfectly matches the core ${displayRole} requirements.`;
                     } else {
-                        // Grab just the first 1 or 2 missing skills to keep the sentence natural
                         const missingHighlight = data.missingSkills.slice(0, 2).join(' and ');
                         summaryElement.textContent = `Your resume strongly matches ${displayRole} requirements, but lacks explicit experience with ${missingHighlight}.`;
                     }
+
                     const strengthsList = document.getElementById('strengths-list');
-
                     strengthsList.innerHTML = '';
-
                     data.foundSkills.forEach(skill => {
                         strengthsList.innerHTML += `<li>${skill}</li>`;
                     });
+
                     const missingList = document.getElementById('missing-skills-list');
-
                     missingList.innerHTML = '';
-
                     data.missingSkills.forEach(skill => {
                         missingList.innerHTML += `<li>${skill}</li>`;
                     });
+
                     const recommendationsList = document.getElementById('recommendations-list');
-
                     recommendationsList.innerHTML = '';
-
                     data.recommendations.forEach(item => {
                         recommendationsList.innerHTML += `<li>${item}</li>`;
                     });
 
+                    // Hide workspace, show results
                     analyzerContainer.style.display = 'none';
                     resultsSection.style.display = 'block';
 
-                    console.log('Score:', data.score);
-
-
-
-
-                    console.log('Results display:', resultsSection.style.display);
-                    console.log('Results element:', resultsSection);
-
-                    // resultsSection.scrollIntoView({
-                    //     behavior: 'smooth',
-                    //     block: 'start'
-                    // });
                 } catch (err) {
-                    alert('Backend Error');
                     console.error(err);
+                    showError('A network error occurred. Please ensure your internet is connected and try again.');
+                } finally {
+                    // Reset button state regardless of success/fail
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                    btnText.textContent = "Analyze Resume";
                 }
-
-                submitBtn.classList.remove('loading');
-                submitBtn.disabled = false;
             });
 
             // Reset Logic
             resetBtn.addEventListener('click', () => {
-
                 form.reset();
-                uploadContent.style.display = 'block';
-                fileDisplay.style.display = 'none';
+                analyzeError.style.display = 'none';
+                document.getElementById('upload-content').style.display = 'block';
+                document.getElementById('file-display').style.display = 'none';
                 resultsSection.style.display = 'none';
                 analyzerContainer.style.display = 'block';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+            
         });
     </script>
     <script type="module">
