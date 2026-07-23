@@ -1,44 +1,197 @@
-# 🚀 ResumeIQ | AI-Powered ATS Optimization Engine
+# ResumeIQ | AI-Powered Resume Analyzer
 
-![ResumeIQ Dashboard Preview](https://via.placeholder.com/1000x500.png?text=ResumeIQ+Dashboard+-+AI+Resume+Analyzer) 
-*(Note: Replace the URL above with a real screenshot of your deployed app)*
+![ResumeIQ Dashboard Preview](resumeiq-dashboard.png)
 
-**ResumeIQ** is a full-stack SaaS application designed to help software engineers optimize their resumes for modern Applicant Tracking Systems (ATS). By leveraging Google's advanced **Gemini 3.5 Flash** model, the platform acts as a strict, objective technical recruiter—providing instant scoring, keyword gap analysis, and tailored bullet-point recommendations.
+**ResumeIQ** is a full-stack AI-powered resume analyzer designed to help developers, students, freshers, and job seekers improve their resumes for modern Applicant Tracking Systems (ATS).
 
-## ✨ Enterprise-Grade Features
+Users can upload a PDF resume or paste resume text, select a target engineering role, and receive an AI-powered ATS score, detected technical strengths, missing skills, and personalized recommendations.
 
-* **🧠 Smart Document Guardrails:** The AI context engine actively evaluates document validity, automatically rejecting non-resume files (journals, essays, tax forms) before running intensive ATS calculations.
-* **🛡️ Secure File Processing:** Robust backend middleware (Multer) strictly enforces 5MB file limits and PDF-only MIME types, protecting the server from memory bloat and malicious payloads.
-* **📊 Strict ATS Scoring (0-100):** Calculates an objective match score based on a targeted engineering role (Frontend, Backend, Full Stack).
-* **🔍 Keyword Gap Analysis:** Extracts explicit technical skills present in the document and cross-references them against industry-standard requirements to identify critical missing buzzwords.
-* **💡 Actionable AI Directives:** Generates 3 to 5 highly specific, line-by-line recommendations to make experience bullet points more metric-driven and impactful.
-* **🧹 Zero-Footprint Architecture:** Temporary files are instantly unlinked and wiped from the server via Node's `fs` module immediately after PDF text extraction.
+## Features
 
-## 💻 Tech Stack
+- **PDF Resume Upload** — Upload and analyze PDF resumes directly.
+- **Paste Resume Text** — Analyze resume content without uploading a file.
+- **Resume Detection** — Helps identify and reject documents that do not appear to be resumes or CVs.
+- **ATS Score Generation** — Generates an ATS-oriented score from 0–100.
+- **Dynamic Strengths** — Extracts technical skills explicitly found in the resume.
+- **Missing Skills Analysis** — Identifies important role-specific technologies and keywords that are absent.
+- **AI Recommendations** — Generates targeted suggestions to improve resume content and impact.
+- **Role-Based Analysis** — Evaluates resumes according to the selected engineering role.
+- **Secure Authentication** — Supports account creation, login, logout, and password reset using Firebase Authentication.
+- **Secure PDF Processing** — Restricts uploads to PDF files with a maximum size of 5 MB.
+- **Temporary File Cleanup** — Uploaded files are removed from the server after PDF text extraction.
+- **Responsive Interface** — Designed for both desktop and mobile devices.
 
-**Frontend:**
-* React.js
-* Tailwind CSS (Sleek, modern, responsive UI)
-* Deployed on Vercel
+## Supported Roles
 
-**Backend:**
-* Node.js & Express.js
-* Multer (Secure file upload handling)
-* `pdf-parse` (Buffer-to-text extraction)
-* Deployed on Render
+ResumeIQ currently supports:
 
-**AI / Machine Learning:**
-* Google Generative AI SDK (`@google/generative-ai`)
-* Model: `gemini-3.5-flash`
-* Prompt Engineering with Strict JSON Response Enforcing
+- Frontend Developer
+- Backend Developer
+- Full Stack Developer
 
-## 🚀 Getting Started (Local Development)
+## Tech Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Firebase Authentication
+- Responsive UI
+- Vercel
+
+### Backend
+
+- Node.js
+- Express.js
+- Multer
+- `pdf-parse`
+- Render
+
+### AI
+
+- Google Gemini API
+- `@google/generative-ai`
+- Model configured as `gemini-3.5-flash`
+- Structured JSON responses
+- Role-specific prompt engineering
+
+## How ResumeIQ Works
+
+1. Create an account or log in.
+2. Upload a PDF resume or paste resume text.
+3. Select a target engineering role.
+4. ResumeIQ extracts the resume content.
+5. The backend sends the resume content and selected role to the Gemini API.
+6. Gemini evaluates the resume using structured instructions.
+7. ResumeIQ displays:
+   - ATS score
+   - Technical strengths
+   - Missing skills
+   - Target role
+   - Overall assessment
+   - Strategic recommendations
+
+## Security & File Handling
+
+ResumeIQ includes several safeguards for handling user input:
+
+- PDF-only file uploads
+- Maximum upload size of 5 MB
+- Gemini API credentials stored in backend environment variables
+- Temporary uploaded files removed after text extraction
+- Resume/CV validation before displaying analysis results
+- CORS configuration for the deployed frontend
+
+Sensitive API credentials should never be committed to the repository.
+
+## Getting Started
 
 ### Prerequisites
-* Node.js (v18 or higher)
-* A Google Gemini API Key
 
-### 1. Clone the repository
+Make sure you have:
+
+- Node.js installed
+- npm installed
+- A Google Gemini API key
+- Firebase project credentials
+
+### 1. Clone the Repository
+
 ```bash
-git clone [https://github.com/yourusername/resumeiq.git](https://github.com/yourusername/resumeiq.git)
-cd resumeiq
+git clone https://github.com/misbahur860-ship-it/resumeiq-ai.git
+cd resumeiq-ai
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env` file and add your Gemini API key:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+Do not commit the `.env` file to GitHub.
+
+### 4. Start the Backend
+
+```bash
+node backend/server.js
+```
+
+The backend runs on port `5000` by default unless a different `PORT` environment variable is configured.
+
+## Deployment
+
+### Frontend
+
+Deployed with Vercel.
+
+### Backend
+
+Deployed with Render.
+
+### Live Application
+
+https://resumeiq-ai-gamma.vercel.app
+
+## Project Structure
+
+```text
+resumeiq-ai/
+│
+├── backend/
+│   └── server.js
+│
+├── index.html
+├── package.json
+├── .gitignore
+├── LICENSE
+├── README.md
+└── resumeiq-dashboard.png
+```
+
+## Current Status
+
+ResumeIQ is an actively developed MVP with the core resume-analysis workflow completed.
+
+Current functionality includes:
+
+- Authentication
+- Password reset
+- PDF upload
+- Resume text input
+- Resume validation
+- Role selection
+- Gemini-powered analysis
+- ATS scoring
+- Dynamic strengths
+- Missing skills
+- Personalized recommendations
+- Responsive desktop and mobile UI
+
+## Planned Improvements
+
+Future improvements may include:
+
+- Additional target roles
+- Improved ATS scoring and analysis
+- More detailed role matching
+- Enhanced results visualization
+- Resume analysis history
+- User dashboard improvements
+- Additional AI-powered resume optimization tools
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+Built as a full-stack AI SaaS portfolio project.
