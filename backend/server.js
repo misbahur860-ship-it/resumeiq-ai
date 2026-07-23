@@ -170,6 +170,7 @@ app.post('/api/analyze', (req, res) => {
         });
     }
 });
+    });
 
 const PORT = process.env.PORT || 5000;
 
