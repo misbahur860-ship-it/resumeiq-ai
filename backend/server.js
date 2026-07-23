@@ -38,9 +38,14 @@ app.get('/', (req, res) => {
     });
 });
 // Fix: We use raw uppercase strings instead of SchemaType to define the JSON structure
+// Fix: We use raw uppercase strings instead of SchemaType to define the JSON structure
 const responseSchema = {
     type: "OBJECT",
     properties: {
+        isResume: {
+            type: "BOOLEAN",
+            description: "Set to true ONLY if the text is a professional resume/CV. Set to false if it is a personal document, journal, essay, book, or non-resume file."
+        },
         score: { 
             type: "INTEGER", 
             description: "Strict ATS comparison score from 0 to 100 based on matching target requirements." 
@@ -61,9 +66,8 @@ const responseSchema = {
             description: "3 to 5 highly specific recruiter tips highlighting project enhancements or metric modifications." 
         }
     },
-    required: ["score", "foundSkills", "missingSkills", "recommendations"]
+    required: ["isResume", "score", "foundSkills", "missingSkills", "recommendations"]
 };
-
 app.post('/api/analyze', upload.single('resume'), async (req, res) => {
     try {
         console.log(req.file);
@@ -115,9 +119,10 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
             }
         });
 
-        const prompt = `
+       const prompt = `
             You are an advanced technical recruiter and a strict, objective Applicant Tracking System (ATS).
-            Evaluate this developer resume against the specific career target profile: "${role}".
+            First, determine if the following text is actually a resume or CV. If it is a personal journal, essay, or unrelated document, set "isResume" to false.
+            If it IS a resume, evaluate it against the specific career target profile: "${role}".
             
             CRITICAL INSTRUCTIONS FOR KEYWORDS:
             1. "foundSkills": Extract ONLY technical skills explicitly written in the resume text. Do not invent skills.
@@ -133,6 +138,14 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
         const result = await model.generateContent(prompt);
         const geminiResponse = JSON.parse(result.response.text());
 
+        // Enterprise Guardrail: Reject non-resume documents early
+        if (geminiResponse.isResume === false) {
+            return res.json({
+                success: false,
+                message: '🚫 The uploaded file does not appear to be a resume. Please upload a valid CV or resume.'
+            });
+        }
+
         // Return clean results mapped to your exact UI components
         res.json({
             success: true,
@@ -144,7 +157,6 @@ app.post('/api/analyze', upload.single('resume'), async (req, res) => {
             textLength: text.length,
             preview: text.substring(0, 500)
         });
-
     } catch (err) {
         console.error("AI Analysis Engine Error:", err);
 
