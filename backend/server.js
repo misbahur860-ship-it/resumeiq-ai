@@ -20,7 +20,7 @@ app.use(express.json());
 // Secure Multer: Limit to 5MB and explicitly only allow PDFs
 const upload = multer({ 
     dest: 'uploads/',
-    limits: { fileSize: 10 * 1024 }, // 10KB for testing
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB max size
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
